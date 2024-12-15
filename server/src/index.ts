@@ -9,7 +9,9 @@ connectToMongoDB()
 const app: Application = express()
 const PORT = parseInt(process.env.PORT || '3000', 10) // Default 3000
 
-app.get('/', router)
+app.use(express.json())
+
+app.use('/api', router)
 
 app.listen(PORT, () => {
   console.log(`${PORT} is listening.....`)
