@@ -1,12 +1,15 @@
 import express, { Application } from 'express'
+import dotenv from 'dotenv'
+import router from './routes'
+import { connectToMongoDB } from './config/db'
+dotenv.config()
+
+connectToMongoDB()
 
 const app: Application = express()
-const PORT = 5001
+const PORT = parseInt(process.env.PORT || '3000', 10) // Default 3000
 
-// test
-app.get('/', (req, res) => {
-  res.send('Hello!!!')
-})
+app.get('/', router)
 
 app.listen(PORT, () => {
   console.log(`${PORT} is listening.....`)
