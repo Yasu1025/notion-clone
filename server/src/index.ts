@@ -1,4 +1,5 @@
 import express, { Application } from 'express'
+import cors from 'cors'
 import dotenv from 'dotenv'
 import { connectToMongoDB } from './config/db'
 import { setupRoutes } from './routes'
@@ -10,6 +11,7 @@ const app: Application = express()
 const PORT = parseInt(process.env.PORT || '3000', 10) // Default 3000
 
 app.use(express.json())
+app.use(cors())
 
 setupRoutes(app)
 
