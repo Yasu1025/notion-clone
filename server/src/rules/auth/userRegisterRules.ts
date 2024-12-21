@@ -1,5 +1,6 @@
 import { body } from 'express-validator'
-import User from '../models/user'
+import User from '../../models/user'
+import { validateMIddleware } from '../validateMIddleware'
 
 export const userRegisterRules = [
   body('username').isLength({ min: 8 }).withMessage('Username must be more than 8 chars'),
@@ -12,4 +13,5 @@ export const userRegisterRules = [
       if (user) return Promise.reject('This username is already taken....')
     })
   }),
+  validateMIddleware,
 ]

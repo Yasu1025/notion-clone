@@ -1,12 +1,10 @@
 import { Router } from 'express'
-import dotenv from 'dotenv'
-import { userRegisterRules } from '../rules/userRegisterRules'
-import { validateMIddleware } from '../rules/validateMIddleware'
+import { userRegisterRules } from '../rules/auth/userRegisterRules'
 import { userController } from '../controllers/userController'
-dotenv.config()
+import { userLoginRules } from '../rules/auth/userLoginRules'
 
 const router = Router()
 
-router.post('/register', userRegisterRules, validateMIddleware, userController.register)
-
+router.post('/register', userRegisterRules, userController.register)
+router.post('/login', userLoginRules, userController.login)
 export default router
