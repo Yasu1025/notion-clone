@@ -20,3 +20,8 @@ export type LoginResponse = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   user: any; // TODO
 };
+
+export type VerifyTokenResponse = {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user: any; // TODO
+};

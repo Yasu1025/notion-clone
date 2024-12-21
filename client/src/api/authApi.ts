@@ -3,7 +3,8 @@ import {
   LoginResponse,
   RegisterParams,
   RegisterResponse,
-} from "../../types/api/auth";
+  VerifyTokenResponse,
+} from "../types/api/auth";
 import axiosClient from "./axiosClient";
 
 const authApi = {
@@ -11,6 +12,8 @@ const authApi = {
     axiosClient.post("auth/register", params),
   login: (params: LoginParams): Promise<LoginResponse> =>
     axiosClient.post("auth/login", params),
+  verifyToken: (): Promise<VerifyTokenResponse> =>
+    axiosClient.post("auth/verify-token"),
 };
 
 export default authApi;
