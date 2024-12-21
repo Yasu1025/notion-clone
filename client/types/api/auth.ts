@@ -6,6 +6,8 @@ export type RegisterParams = {
 
 export type RegisterResponse = {
   token: string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  user: any; // TODO
 };
 
 export type LoginParams = {

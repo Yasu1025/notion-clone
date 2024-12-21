@@ -1,19 +1,22 @@
 import { useCallback, useState } from "react";
 import InputField from "../../components/common/InputField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import SubmitButton from "../../components/common/SubmitButton";
 import authApi from "../../api/authApi";
 
 const Register = (): JSX.Element => {
+  const navigate = useNavigate();
+
   const [formValues, setFormValues] = useState({
     username: "",
     password: "",
     confirmPassword: "",
   });
-  // const [username, setUsername] = useState("");
-  // const [password, setPassword] = useState("");
-  // const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [errors, setErrors] = useState<string[]>([]);
+  const isAllFormFilled = Object.values(formValues).every(
+    (value) => value.trim() !== ""
+  );
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -28,6 +31,7 @@ const Register = (): JSX.Element => {
   ) => {
     e.preventDefault();
     setIsLoading(true);
+
     try {
       const res = await authApi.register({
         username: formValues.username.trim(),
@@ -35,12 +39,16 @@ const Register = (): JSX.Element => {
         confirmPassword: formValues.confirmPassword.trim(),
       });
       localStorage.setItem("token", res.token);
-      console.log("OK!!");
-    } catch (error) {
-      console.log(error);
+      navigate("/");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      const errorMessages = error?.data.errors.map(
+        (err: { msg: string }) => err.msg
+      );
+      setErrors(errorMessages);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (
@@ -50,6 +58,12 @@ const Register = (): JSX.Element => {
           Register
         </h2>
       </div>
+      {errors.length > 0 &&
+        errors.map((err) => (
+          <p key={err} className="bg-red-500 text-white w-full px-4 py-2">
+            {err}
+          </p>
+        ))}
       <div className="p-2 w-full">
         <InputField
           label={"Username"}
@@ -81,6 +95,7 @@ const Register = (): JSX.Element => {
           text="Register"
           onClick={handleSubmit}
           isLoading={isLoading}
+          isDisabled={!isAllFormFilled}
         />
       </div>
       <div className="text-right text-indigo-500 underline">

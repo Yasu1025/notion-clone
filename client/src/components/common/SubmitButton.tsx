@@ -4,13 +4,20 @@ interface Props {
   text: string;
   onClick: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
   isLoading: boolean;
+  isDisabled?: boolean;
 }
 
-const SubmitButton = ({ text, onClick, isLoading }: Props): JSX.Element => {
+const SubmitButton = ({
+  text,
+  onClick,
+  isLoading,
+  isDisabled = false,
+}: Props): JSX.Element => {
   return (
     <button
+      disabled={isDisabled || isLoading}
       type="button"
-      className="flex mx-auto justify-center items-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg h-12 min-w-40"
+      className="flex mx-auto justify-center items-center text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 disabled:bg-gray-500 rounded text-lg h-12 min-w-40"
       onClick={onClick}
     >
       {isLoading ? (
