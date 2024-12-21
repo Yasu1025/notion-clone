@@ -56,7 +56,17 @@ const login = async (req: Request, res: Response) => {
   }
 }
 
+const verifyToken = async (req: Request, res: Response) => {
+  if (!req.user) {
+    res.status(401).json({ error: 'Unauthorized.' })
+    return
+  }
+
+  res.status(200).json({ user: req.user })
+}
+
 export const userController = {
   register,
   login,
+  verifyToken,
 }
