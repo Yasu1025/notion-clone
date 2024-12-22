@@ -11,6 +11,9 @@ const authUtils = {
       return null;
     }
   },
+  logout: () => {
+    localStorage.removeItem("token");
+  },
 };
 
 export default authUtils;
