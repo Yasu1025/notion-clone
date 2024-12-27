@@ -1,8 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import userReducer from "./slices/userSlice";
+import memoReducer from "./slices/memoSlice";
 
 const rootReducer = combineReducers({
   user: userReducer,
+  memo: memoReducer,
 });
 
 export const store = configureStore({

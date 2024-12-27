@@ -1,7 +1,11 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MainLogo from "../svg/MainLogo";
 import authUtils from "../../utils/auth";
-import { useAppSelector } from "../../store/hooks";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { useEffect, useState } from "react";
+import memoApi from "../../api/memoApi";
+import { setMyMemos } from "../../store/slices/memoSlice";
+import Memos from "./Memos";
 
 const LogoutButton = () => (
   <svg
@@ -20,14 +24,30 @@ const LogoutButton = () => (
   </svg>
 );
 
-// TODO
 const Sidebar = (): JSX.Element => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const { myMemos } = useAppSelector((state) => state.memo);
   const { user } = useAppSelector((state) => state.user);
+  const [activeMemoId, setActiveMemoId] = useState("");
   const logout = () => {
     authUtils.logout();
     navigate("/login");
   };
+
+  useEffect(() => {
+    const getMemos = async () => {
+      try {
+        const res = await memoApi.getAll();
+        dispatch(setMyMemos(res));
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    getMemos();
+  }, [dispatch]);
+
   return (
     <>
       <aside
@@ -52,21 +72,18 @@ const Sidebar = (): JSX.Element => {
             <li>
               <div className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <span className="flex-1 ms-3 whitespace-nowrap">Private</span>
-                <button className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-sm dark:bg-blue-900 dark:text-blue-300">
+                <Link
+                  to="/"
+                  className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-sm dark:bg-blue-900 dark:text-blue-300"
+                >
                   +
-                </button>
+                </Link>
               </div>
-              <ul>
-                <li className="flex items-center p-1 pl-10 text-sm text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                  dummy Memo
-                </li>
-                <li className="flex items-center p-1 pl-10 text-sm text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                  dummy Memo
-                </li>
-                <li className="flex items-center p-1 pl-10 text-sm text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
-                  dummy Memo
-                </li>
-              </ul>
+              <Memos
+                memos={myMemos}
+                onClick={(id) => setActiveMemoId(id)}
+                activeMemoId={activeMemoId}
+              />
             </li>
             <li className="mt-auto">
               <ul>

@@ -1,11 +1,5 @@
-import { ObjectId } from "mongoose";
+import { Memo } from "..";
 
-export type memoCreateRes = {
-  _id: string | ObjectId;
-  description: string;
-  favorite: boolean;
-  icon: string;
-  position: number;
-  title: string;
-  user: string | ObjectId;
-};
+export type memoCreateRes = Memo;
+
+export type getAllMemosRes = Memo[];
