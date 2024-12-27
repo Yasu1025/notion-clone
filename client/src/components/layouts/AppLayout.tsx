@@ -34,9 +34,9 @@ const AppLayout = (): JSX.Element => {
   }
 
   return (
-    <section className="text-gray-600 body-font relative">
+    <section className="text-gray-600 body-font relative h-lvh">
       <Sidebar />
-      <div className="p-4 sm:ml-64">
+      <div className="p-4 sm:ml-64 h-full">
         <Outlet />
       </div>
     </section>

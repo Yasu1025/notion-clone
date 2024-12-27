@@ -4,6 +4,7 @@ import Login from "../pages/auth/Login";
 import Register from "../pages/auth/Register";
 import AppLayout from "../components/layouts/AppLayout";
 import Home from "../pages/Home";
+import Memo from "../pages/Memo";
 
 export const AppRoutes = () => {
   return (
@@ -15,6 +16,7 @@ export const AppRoutes = () => {
       <Route path="/" element={<AppLayout />}>
         <Route index element={<Home />} />
         <Route path="memo" element={<Home />} />
+        <Route path="memo/:memoId" element={<Memo />} />
       </Route>
     </Routes>
   );
