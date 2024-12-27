@@ -23,11 +23,29 @@ const Memo = () => {
     getMemo();
   }, [memoId]);
 
-  const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(e.target.value);
+  const onChangeTitle = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newTitle = e.target.value;
+    setTitle(newTitle);
+    try {
+      await memoApi.update(memoId as string, {
+        title: newTitle,
+        description: desc,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
-  const onChangeDesc = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setDesc(e.target.value);
+  const onChangeDesc = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newDesc = e.target.value;
+    setDesc(newDesc);
+    try {
+      await memoApi.update(memoId as string, {
+        title,
+        description: newDesc,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

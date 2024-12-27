@@ -57,8 +57,38 @@ const getOne = async (req: Request, res: Response) => {
     res.status(500).json({ error: 'Failed to get Memo....' })
   }
 }
+
+const update = async (req: Request, res: Response) => {
+  const { title, description }: { title: string; description: string } = req.body
+  const { memoId } = req.params
+  if (!memoId) {
+    res.status(500).json({ error: 'No memoID found...' })
+  }
+  const user = req.user
+  if (!user) {
+    res.status(500).json({ error: 'No user found...' })
+  }
+
+  try {
+    const memo = await Memo.findOne({ user: user?._id, _id: memoId })
+    if (!memo) {
+      res.status(404).json({ error: 'No memo found...' })
+    }
+    if (title === '') req.body.title = 'Default Title'
+    if (description === '') req.body.description = 'Default Description'
+    const updatedMemo = await Memo.findByIdAndUpdate(memoId, {
+      $set: req.body,
+    })
+    res.status(200).json(updatedMemo)
+  } catch (error) {
+    console.error('Error get memo:', error)
+    res.status(500).json({ error: 'Failed to get Memo....' })
+  }
+}
+
 export const memoController = {
   create,
   getAll,
   getOne,
+  update,
 }
