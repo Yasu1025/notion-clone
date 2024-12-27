@@ -36,7 +36,29 @@ const getAll = async (req: Request, res: Response) => {
   }
 }
 
+const getOne = async (req: Request, res: Response) => {
+  const { memoId } = req.params
+  if (!memoId) {
+    res.status(500).json({ error: 'No memoID found...' })
+  }
+  const user = req.user
+  if (!user) {
+    res.status(500).json({ error: 'No user found...' })
+  }
+
+  try {
+    const memo = await Memo.findOne({ user: user?._id, _id: memoId })
+    if (!memo) {
+      res.status(404).json({ error: 'No memo found...' })
+    }
+    res.status(200).json(memo)
+  } catch (error) {
+    console.error('Error get memo:', error)
+    res.status(500).json({ error: 'Failed to get Memo....' })
+  }
+}
 export const memoController = {
   create,
   getAll,
+  getOne,
 }
