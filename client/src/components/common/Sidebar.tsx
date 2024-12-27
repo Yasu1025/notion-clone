@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import MainLogo from "../svg/MainLogo";
 import authUtils from "../../utils/auth";
+import { useAppSelector } from "../../store/hooks";
 
 const LogoutButton = () => (
   <svg
@@ -22,7 +23,7 @@ const LogoutButton = () => (
 // TODO
 const Sidebar = (): JSX.Element => {
   const navigate = useNavigate();
-
+  const { user } = useAppSelector((state) => state.user);
   const logout = () => {
     authUtils.logout();
     navigate("/login");
@@ -87,7 +88,7 @@ const Sidebar = (): JSX.Element => {
                   >
                     <LogoutButton />
                     <span className="flex-1 ms-3 whitespace-nowrap">
-                      Sign out
+                      {user?.username}
                     </span>
                   </a>
                 </li>

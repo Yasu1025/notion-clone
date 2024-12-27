@@ -11,7 +11,6 @@ const register = async (req: Request, res: Response) => {
 
   try {
     const encryptedPsw = encryptoPassword(password)
-    console.log('encryptedPsw', encryptedPsw)
     const user = await User.create({
       username,
       password: encryptedPsw,

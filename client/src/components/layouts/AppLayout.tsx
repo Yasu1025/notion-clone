@@ -2,9 +2,12 @@ import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import authUtils from "../../utils/auth";
 import Sidebar from "../common/Sidebar";
+import { useAppDispatch } from "../../store/hooks";
+import { setUser } from "../../store/slices/userSlice";
 
 const AppLayout = (): JSX.Element => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
@@ -14,6 +17,8 @@ const AppLayout = (): JSX.Element => {
         setIsCheckingAuth(false);
         if (!authedUser) {
           navigate("/login");
+        } else {
+          dispatch(setUser(authedUser));
         }
       } catch {
         setIsCheckingAuth(false);
@@ -21,7 +26,7 @@ const AppLayout = (): JSX.Element => {
       }
     };
     checkAuthwithJWT();
-  }, [navigate]);
+  }, [dispatch, navigate]);
 
   if (isCheckingAuth) {
     // TODO loading

@@ -1,3 +1,5 @@
+import { User } from "..";
+
 export type RegisterParams = {
   username: string;
   password: string;
@@ -6,8 +8,7 @@ export type RegisterParams = {
 
 export type RegisterResponse = {
   token: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any; // TODO
+  user: User;
 };
 
 export type LoginParams = {
@@ -17,11 +18,9 @@ export type LoginParams = {
 
 export type LoginResponse = {
   token: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any; // TODO
+  user: User;
 };
 
 export type VerifyTokenResponse = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  user: any; // TODO
+  user: User;
 };
