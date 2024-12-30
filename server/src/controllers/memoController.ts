@@ -86,9 +86,25 @@ const update = async (req: Request, res: Response) => {
   }
 }
 
+const destroy = async (req: Request, res: Response) => {
+  const { memoId } = req.params
+  if (!memoId) {
+    res.status(500).json({ error: 'No memoID found...' })
+  }
+
+  try {
+    await Memo.deleteOne({ _id: memoId })
+    res.status(200).json('Memo has been deleted!!!')
+  } catch (error) {
+    console.error('Error get memo:', error)
+    res.status(500).json({ error: 'Failed to get Memo....' })
+  }
+}
+
 export const memoController = {
   create,
   getAll,
   getOne,
   update,
+  destroy,
 }
