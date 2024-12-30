@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import MainLogo from "../svg/MainLogo";
 import authUtils from "../../utils/auth";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
@@ -48,6 +48,17 @@ const Sidebar = (): JSX.Element => {
     getMemos();
   }, [dispatch]);
 
+  const onAdd = async () => {
+    try {
+      const res = await memoApi.create();
+      const newMemos = [res, ...myMemos];
+      dispatch(setMyMemos(newMemos));
+      navigate(`/memo/${res?._id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <aside
@@ -72,12 +83,12 @@ const Sidebar = (): JSX.Element => {
             <li>
               <div className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                 <span className="flex-1 ms-3 whitespace-nowrap">Private</span>
-                <Link
-                  to="/"
+                <button
                   className="inline-flex items-center justify-center w-3 h-3 p-3 ms-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-sm dark:bg-blue-900 dark:text-blue-300"
+                  onClick={onAdd}
                 >
                   +
-                </Link>
+                </button>
               </div>
               <Memos
                 memos={myMemos}

@@ -10,6 +10,8 @@ const memoApi = {
     memoId: string,
     params: { title: string; description: string }
   ): Promise<void> => axiosClient.put(`memo/${memoId}`, params),
+  delete: (memoId: string): Promise<void> =>
+    axiosClient.delete(`memo/${memoId}`),
 };
 
 export default memoApi;

@@ -14,8 +14,6 @@ const AuthLayout = (): JSX.Element => {
         setIsCheckingAuth(false);
         if (authedUser) {
           navigate("/");
-        } else {
-          navigate("/login");
         }
       } catch {
         setIsCheckingAuth(false);
